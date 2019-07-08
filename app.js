@@ -3,7 +3,7 @@ const app = express(); //instancia express
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const url = 'mongodb+srv://AKIRAuser_admin:J1KUEURk4GBX20qf@akiracluster-bvd0r.mongodb.net/test?retryWrites=true&w=majority'
+const url = 'mongodb+srv://AKIRAuser_admin:password@akiracluster-bvd0r.mongodb.net/test?retryWrites=true&w=majority'
 const options = { reconnectTries:Number.MAX_VALUE, reconnectInterval: 500, poolSize: 5, useNewUrlParser: true };
 
 mongoose.connect(url, options);
