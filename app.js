@@ -37,5 +37,3 @@ app.use('/users', usersRoute);
 
 app.listen(3000); // a api precisa ser escutada em alguma porta
 module.exports = app; //define o que está sendo escutado no app.listen
-
-//teste
