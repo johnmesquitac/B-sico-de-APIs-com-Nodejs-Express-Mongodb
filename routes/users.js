@@ -15,6 +15,7 @@ router.post('/create', (req, res) => { //  ./users/create -> criação de usuár
     if(!obj.email || !obj.password) return res.send({error: 'Insufficient data'});
    */
 
+   
     /**
      * uma alternativa ao utilizar const obj e depois acessar as propriedades do mesmo
      * é desestruturar utilizando const { email, password} = req.body;
