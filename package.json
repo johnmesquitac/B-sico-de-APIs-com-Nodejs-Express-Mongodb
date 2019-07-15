@@ -1,0 +1,26 @@
+{
+  "name": "api_nodejs",
+  "version": "1.0.0",
+  "description": "Curso : Básico de APIs com Nodejs + Express + Mongodb\r Link: https://www.udemy.com/curso-basico-de-apis-com-nodejs-express-mongodb/learn/",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnmesquitac/Basico-de-APIs--Nodejs-Express-Mongodb.git"
+  },
+  "author": "João Victor de Mesquita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnmesquitac/Basico-de-APIs--Nodejs-Express-Mongodb/issues"
+  },
+  "homepage": "https://github.com/johnmesquitac/Basico-de-APIs--Nodejs-Express-Mongodb#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.3",
+    "nodemon": "^1.19.1"
+  }
+}

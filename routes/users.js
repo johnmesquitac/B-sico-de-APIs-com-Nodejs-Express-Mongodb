@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router(); //instanciando a rota 
 const Users = require('../model/user'); //importa o módulo de criação de usuários
+const bcrypt = require('bcrypt');
 
 //Para fazer uma requisição via get, ou seja, a api precisa retornar uma resposta se usa o GET
 router.get('/', (req, res) => { //faz uma requisição ao json que retorna algo
@@ -36,6 +37,24 @@ router.post('/create', (req, res) => { //  ./users/create -> criação de usuár
              return res.send(data);
          });
      });
+});
+
+router.post('/auth', (req,res)=>{
+    const{ email, password} = req.body;
+
+    if(!email || !password) return res.send({error: 'Insuficient Data!'});
+
+    Users.findOne({email}, (err,data)=>{
+        if(err) return res.send({ error: 'User not find!'});
+        if(!data) return res.send({error:'User not registred!'});
+
+        bcrypt.compare(password, data.password, (err, same)=>{
+            if(!same) return res.send({error:'Error while authenticate user!'});
+            
+            data.password = undefined;
+            return res.send(data);
+        })
+    }).select('+password');
 });
 
 module.exports = router;
