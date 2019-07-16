@@ -2,12 +2,15 @@ const express = require("express");
 const router = express.Router(); //instanciando a rota
 const Users = require("../model/user"); //importa o módulo de criação de usuários
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 //funções auxiliares
-const createUserToken = (userId) =>{
-    return jwt.sign({id: userId}, 'akira' , {expiresIn: '7d'});
-}
+const createUserToken = userId => {
+  return jwt.sign({ id: userId }, config.jwt_pass, {
+    expiresIn: config.jwt_expires_in
+  });
+};
 
 //Para fazer uma requisição via get, ou seja, a api precisa retornar uma resposta se usa o GET
 router.get("/", async (req, res) => {
@@ -22,7 +25,8 @@ router.get("/", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return rres.status(400).send({ error: "Insufficient data" });
+  if (!email || !password)
+    return rres.status(400).send({ error: "Insufficient data" });
   // caso tenha email e password é preciso verificar se o usuário já existe
   try {
     if (await Users.findOne({ email }))
@@ -31,7 +35,7 @@ router.post("/create", async (req, res) => {
     const user = await Users.create(req.body);
     user.password = undefined;
 
-    return res.status(201).send({user,token:createUserToken(user.id)});
+    return res.status(201).send({ user, token: createUserToken(user.id) });
   } catch (err) {
     return res.status(500).send({ error: "Error searchig for user" });
   }
@@ -40,24 +44,25 @@ router.post("/create", async (req, res) => {
 router.post("/auth", async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) return res.status(400).send({ error: "Insuficient Data!" });
+  if (!email || !password)
+    return res.status(400).send({ error: "Insuficient Data!" });
 
   try {
-    const user = await Users.findOne({ email }).select('+password');
+    const user = await Users.findOne({ email }).select("+password");
     if (!user) return res.status(400).send({ error: "User not registred!" });
 
     const pass = await bcrypt.compare(password, user.password);
-    if (!pass) return res.status(401).send({ error: "Error while authenticate user!" });
+    if (!pass)
+      return res.status(401).send({ error: "Error while authenticate user!" });
     user.password = undefined;
 
-    return res.send({user, token: createUserToken(user.id)});
+    return res.send({ user, token: createUserToken(user.id) });
   } catch (err) {
     return res.status(500).send({ error: "Error searchig for user" });
   }
 });
 
 module.exports = router;
-
 
 /**
  * tipos de status:

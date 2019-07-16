@@ -2,8 +2,10 @@ const express = require("express"); //criar api, express framework de acesso web
 const app = express(); //instancia express
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const config = require("./config/config");
 
-const url ="mongodb+srv://AKIRAuser_admin:password@akiracluster-bvd0r.mongodb.net/test?retryWrites=true&w=majority";
+const url = config.db_string;
+
 const options = {
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,
