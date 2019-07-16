@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router(); //instanciando a rota
 const Users = require("../model/user"); //importa o módulo de criação de usuários
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+
+//funções auxiliares
+const createUserToken = (userId) =>{
+    return jwt.sign({id: userId}, 'akira', {expiresIn: '7d'});
+}
 
 //Para fazer uma requisição via get, ou seja, a api precisa retornar uma resposta se usa o GET
 router.get("/", async (req, res) => {
@@ -24,7 +30,8 @@ router.post("/create", async (req, res) => {
 
     const user = await Users.create(req.body);
     user.password = undefined;
-    return res.send(user);
+
+    return res.send({user,token:createUserToken(user.id)});
   } catch (err) {
     return res.send({ error: "Error searchig for user" });
   }
@@ -42,7 +49,8 @@ router.post("/auth", async (req, res) => {
     const pass = await bcrypt.compare(password, user.password);
     if (!pass) return res.send({ error: "Error while authenticate user!" });
     user.password = undefined;
-    return res.send(user);
+
+    return res.send({user, token: createUserToken(user.id)});
   } catch (err) {
     return res.send({ error: "Error searchig for user" });
   }
