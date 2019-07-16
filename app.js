@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const config = require("./config/config");
 
 const url = config.db_string;
+
 const options = {
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,
